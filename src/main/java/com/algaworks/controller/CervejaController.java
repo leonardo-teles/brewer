@@ -3,10 +3,12 @@ package com.algaworks.controller;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.algaworks.model.Cerveja;
 
@@ -20,13 +22,15 @@ public class CervejaController {
 	}
 	
 	@PostMapping("/novo")
-	public String cadastrar(@Valid Cerveja cerveja, BindingResult result) {
+	public String cadastrar(@Valid Cerveja cerveja, BindingResult result, Model model, RedirectAttributes attributes) {
 		if(result.hasErrors()) {
-			System.out.println(">>>>> tem erro sim!!");
+			model.addAttribute("mensagem", "Erro no formulário");
+			
+			return "cerveja/cadastro";
 		}
 		
-		System.out.println(">>>>> sku " + cerveja.getSku());
+		attributes.addFlashAttribute("mensagem", "Cerveja salva com sucesso!");
 		
-		return "cerveja/cadastro";
+		return "redirect:/cervejas/novo";
 	}
 }

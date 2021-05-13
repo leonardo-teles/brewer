@@ -1,14 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<meta charset="UTF-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>Cadastro de Cervejas</title>
 	</head>
 	
 	<body>
 		<form method="post">
+			<span th:text="${mensagem}"></span>
+			<br/>
+		
 			<label for="sku">SKU</label>
 			<input id="sku" type="text" name="sku">
+			<br/>
+
+			<label for="nome">Nome</label>
+			<input id="nome" type="text" name="nome">
+			<br/>
+
+			<label for="descricao">Descrição</label>
+			<textarea rows="3" cols="30" id="descricao" name="descricao"></textarea>
 			<br/>
 			
 			<input type="submit" value="Salvar">			
