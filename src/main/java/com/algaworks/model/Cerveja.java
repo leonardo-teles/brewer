@@ -5,14 +5,13 @@ import javax.validation.constraints.Size;
 
 public class Cerveja {
 
-	@NotBlank
+	@NotBlank(message = "SKU é obrigatório")
 	private String sku;
 
-	@NotBlank
+	@NotBlank(message = "Nome é obrigatório")
 	private String nome;
 	
-	@NotBlank
-	@Size(max = 50, message = "A descrição não pode ter mais do que 50 caracteres")
+	@Size(min = 1, max = 50, message = "A descrição deve estar entre 1 e 50")
 	private String descricao;
 
 	public String getSku() {

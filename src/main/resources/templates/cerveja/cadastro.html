@@ -6,20 +6,25 @@
 	</head>
 	
 	<body>
-		<form method="post">
+	
+		<div th:each="erro : ${#fields.detailedErrors('${cerveja.*}')}">
+				<span th:text="${erro.message}"></span>
+		</div>
+			
+		<form method="post" th:object="${cerveja}">			
 			<span th:text="${mensagem}"></span>
 			<br/>
 		
 			<label for="sku">SKU</label>
-			<input id="sku" type="text" name="sku">
+			<input id="sku" type="text" th:field="*{sku}">
 			<br/>
 
 			<label for="nome">Nome</label>
-			<input id="nome" type="text" name="nome">
+			<input id="nome" type="text" th:field="*{nome}">
 			<br/>
 
 			<label for="descricao">Descrição</label>
-			<textarea rows="3" cols="30" id="descricao" name="descricao"></textarea>
+			<textarea rows="3" cols="30" id="descricao" th:field="*{descricao}"></textarea>
 			<br/>
 			
 			<input type="submit" value="Salvar">			
