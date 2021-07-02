@@ -1,0 +1,16 @@
+/* UTILITÁRIOS */
+
+.bw-glyphicon-large {
+	font-size: 18px;
+}
+
+/* COMPONENTES */
+
+/* Field Action */
+.bw-field-action {
+	display: flex;
+}
+
+.bw-field-action_icon {
+	margin: 8px 0 0 5px;
+}
