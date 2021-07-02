@@ -30,4 +30,9 @@ public class CervejaController {
 		
 		return "redirect:/cervejas/novo";
 	}
+	
+	@GetMapping("/cadastro")
+	public String cadastro() {
+		return "cerveja/cadastro-produto";
+	}
 }
