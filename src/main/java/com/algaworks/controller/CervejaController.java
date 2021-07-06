@@ -15,36 +15,37 @@ import com.algaworks.enums.Origem;
 import com.algaworks.enums.Sabor;
 import com.algaworks.model.Cerveja;
 import com.algaworks.repository.Estilos;
+import com.algaworks.service.CervejaService;
 
 @Controller
 @RequestMapping("/cervejas")
 public class CervejaController {
-	
+
 	@Autowired
 	private Estilos estilos;
 	
+	@Autowired
+	private CervejaService cervejaService;
+
 	@GetMapping("/novo")
 	public ModelAndView novo(Cerveja cerveja) {
 		ModelAndView mv = new ModelAndView("cerveja/cadastro");
 		mv.addObject("sabores", Sabor.values());
 		mv.addObject("estilos", estilos.findAll());
 		mv.addObject("origens", Origem.values());
-		
+
 		return mv;
 	}
-	
+
 	@PostMapping("/novo")
 	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, RedirectAttributes attributes) {
-		/*
-		 * if(result.hasErrors()) { return novo(cerveja); }
-		 */
 		
+		if(result.hasErrors()) { 
+			return novo(cerveja); 
+		}
+
+		cervejaService.salvar(cerveja);
 		attributes.addFlashAttribute("mensagem", "Cerveja salva com sucesso!");
-		System.out.println(">>>>> sku: " + cerveja.getSku());
-		System.out.println(">>>>> sabor: " + cerveja.getSabor());
-		System.out.println(">>>>> origem: " + cerveja.getOrigem());
-		
-		System.out.println(">>>>> estilo: " + cerveja.getEstilo());
 		
 		return new ModelAndView("redirect:/cervejas/novo");
 	}
