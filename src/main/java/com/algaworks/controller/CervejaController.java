@@ -41,6 +41,10 @@ public class CervejaController {
 		
 		attributes.addFlashAttribute("mensagem", "Cerveja salva com sucesso!");
 		System.out.println(">>>>> sku: " + cerveja.getSku());
+		System.out.println(">>>>> sabor: " + cerveja.getSabor());
+		System.out.println(">>>>> origem: " + cerveja.getOrigem());
+		
+		System.out.println(">>>>> estilo: " + cerveja.getEstilo());
 		
 		return new ModelAndView("redirect:/cervejas/novo");
 	}
