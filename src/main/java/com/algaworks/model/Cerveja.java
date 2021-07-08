@@ -18,6 +18,7 @@ import javax.validation.constraints.Size;
 
 import com.algaworks.enums.Origem;
 import com.algaworks.enums.Sabor;
+import com.algaworks.validation.SKU;
 
 @Entity
 @Table(name = "cervejas")
@@ -27,7 +28,8 @@ public class Cerveja implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
-	
+
+	@SKU
 	@NotBlank(message = "SKU é obrigatório")
 	private String sku;
 
