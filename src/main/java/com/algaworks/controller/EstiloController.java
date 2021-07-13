@@ -35,7 +35,6 @@ public class EstiloController {
 	
 	@PostMapping("/novo")
 	public ModelAndView cadastrar(@Valid Estilo estilo, BindingResult result, RedirectAttributes attributes) {
-		
 		if(result.hasErrors()) {
 			return novo(estilo);
 		}
