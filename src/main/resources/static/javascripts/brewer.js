@@ -7,7 +7,7 @@ Brewer.MaskMoney = (function() {
 		this.plain = $('.js-plain');		
 	}
 	
-	MaskMoney.prototype.enable = function() {
+	MaskMoney.prototype.iniciar = function() {
 		this.decimal.maskMoney({ decimal: ',', thousands: '.' });
 		this.plain.maskMoney({ precision: 0, thousands: '.' });
 	}
@@ -18,5 +18,5 @@ Brewer.MaskMoney = (function() {
 
 $(function() {
 	var maskMoney = new Brewer.MaskMoney();
-	maskMoney.enable();	
+	maskMoney.iniciar();	
 });
