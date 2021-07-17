@@ -8,7 +8,7 @@
 	</Appenders>
 	
 	<Loggers>
-		<Logger name="com.algaworks.controller" level="debug"/>
+		<Logger name="com.algaworks" level="debug"/>
 		
 		<Logger name="org.hibernate.SQL" level="debug"/>
 	
