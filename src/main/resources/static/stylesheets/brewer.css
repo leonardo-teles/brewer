@@ -4,6 +4,11 @@
 	font-size: 18px;
 }
 
+.bw-required > .control-label:after {
+	content: "*";
+	margin-left: .3rem;
+}
+
 /* COMPONENTES */
 
 /* Field Action */
