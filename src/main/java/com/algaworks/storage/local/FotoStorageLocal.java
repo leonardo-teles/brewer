@@ -15,6 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.algaworks.storage.FotoStorage;
 
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.name.Rename;
+
 @Component
 public class FotoStorageLocal implements FotoStorage {
 
@@ -58,6 +61,30 @@ public class FotoStorageLocal implements FotoStorage {
 			return Files.readAllBytes(this.localTemporario.resolve(nome));
 		} catch (IOException e) {
 			throw new RuntimeException("Erro ao ler a foto temporária", e);
+		}
+	}
+	
+	@Override
+	public byte[] recuperarFoto(String nome) {
+		try {
+			return Files.readAllBytes(this.local.resolve(nome));
+		} catch (IOException e) {
+			throw new RuntimeException("Erro ao ler a foto", e);
+		}
+	}
+	
+	@Override
+	public void salvar(String foto) {
+		try {
+			Files.move(this.localTemporario.resolve(foto), this.local.resolve(foto));
+		} catch (IOException e) {
+			throw new RuntimeException("Erro ao mover a foto para o destino final", e);
+		}
+		
+		try {
+			Thumbnails.of(this.local.resolve(foto).toString()).size(40, 68).toFiles(Rename.PREFIX_DOT_THUMBNAIL);
+		} catch (IOException e) {
+			throw new RuntimeException("Erro ao gerar thumbnail", e);
 		}
 	}
 	

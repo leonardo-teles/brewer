@@ -22,6 +22,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.util.ObjectUtils;
+
 import com.algaworks.enums.Origem;
 import com.algaworks.enums.Sabor;
 import com.algaworks.validation.SKU;
@@ -190,6 +192,10 @@ public class Cerveja implements Serializable {
 
 	public void setEstilo(Estilo estilo) {
 		this.estilo = estilo;
+	}
+	
+	public String getFotoOuMock() {
+		return !ObjectUtils.isEmpty(foto) ? foto : "cerveja-mock.png";
 	}
 
 	@Override

@@ -60,6 +60,7 @@ public class CervejaController {
 		mv.addObject("sabores", Sabor.values());
 		mv.addObject("estilos", estilos.findAll());
 		mv.addObject("cervejas", cervejas.findAll());
+		mv.addObject("origens", Origem.values());
 		
 		return mv;
 		
