@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.algaworks.enums.Origem;
 import com.algaworks.enums.Sabor;
 import com.algaworks.model.Cerveja;
+import com.algaworks.repository.Cervejas;
 import com.algaworks.repository.Estilos;
 import com.algaworks.service.CervejaService;
 
@@ -26,6 +27,9 @@ public class CervejaController {
 	
 	@Autowired
 	private CervejaService cervejaService;
+	
+	@Autowired
+	private Cervejas cervejas;
 
 	@GetMapping("/novo")
 	public ModelAndView novo(Cerveja cerveja) {
@@ -48,5 +52,16 @@ public class CervejaController {
 		attributes.addFlashAttribute("mensagem", "Cerveja salva com sucesso!");
 		
 		return new ModelAndView("redirect:/cervejas/novo");
+	}
+	
+	@GetMapping
+	public ModelAndView pesquisar() {
+		ModelAndView mv = new ModelAndView("cerveja/pesquisa");
+		mv.addObject("sabores", Sabor.values());
+		mv.addObject("estilos", estilos.findAll());
+		mv.addObject("cervejas", cervejas.findAll());
+		
+		return mv;
+		
 	}
 }
