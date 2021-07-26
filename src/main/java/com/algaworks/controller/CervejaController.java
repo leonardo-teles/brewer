@@ -16,6 +16,7 @@ import com.algaworks.enums.Sabor;
 import com.algaworks.model.Cerveja;
 import com.algaworks.repository.Cervejas;
 import com.algaworks.repository.Estilos;
+import com.algaworks.repository.filter.CervejaFilter;
 import com.algaworks.service.CervejaService;
 
 @Controller
@@ -55,13 +56,14 @@ public class CervejaController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar() {
+	public ModelAndView pesquisar(CervejaFilter cervejaFilter, BindingResult result) {
 		ModelAndView mv = new ModelAndView("cerveja/pesquisa");
 		mv.addObject("sabores", Sabor.values());
 		mv.addObject("estilos", estilos.findAll());
-		mv.addObject("cervejas", cervejas.findAll());
 		mv.addObject("origens", Origem.values());
 		
+		mv.addObject("cervejas", cervejas.filtrar(cervejaFilter));
+
 		return mv;
 		
 	}
