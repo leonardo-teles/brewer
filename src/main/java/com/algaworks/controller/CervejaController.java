@@ -3,6 +3,8 @@ package com.algaworks.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,13 +58,13 @@ public class CervejaController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(CervejaFilter cervejaFilter, BindingResult result) {
+	public ModelAndView pesquisar(CervejaFilter cervejaFilter, BindingResult result, @PageableDefault(size = 1) Pageable pageable) {
 		ModelAndView mv = new ModelAndView("cerveja/pesquisa");
 		mv.addObject("sabores", Sabor.values());
 		mv.addObject("estilos", estilos.findAll());
 		mv.addObject("origens", Origem.values());
 		
-		mv.addObject("cervejas", cervejas.filtrar(cervejaFilter));
+		mv.addObject("cervejas", cervejas.filtrar(cervejaFilter, pageable));
 
 		return mv;
 		
