@@ -39,7 +39,7 @@ public class CervejasImpl implements CervejasQueries {
 		
 		Sort sort = pageable.getSort();
 
-		if(sort != null) {
+		if(sort != null && sort.isSorted()) {
 			Sort.Order order = sort.iterator().next();
 			String property = order.getProperty();
 			criteria.addOrder(order.isAscending() ? Order.asc(property) : Order.desc(property));
