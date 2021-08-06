@@ -102,3 +102,8 @@
 	width: 100px;
 	text-align: right;
 }
+
+/* Colunas - Pesquisa de Estilos */
+.table-estilos-col-codigo {
+	width: 100px;
+}
