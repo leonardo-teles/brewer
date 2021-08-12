@@ -60,7 +60,11 @@ public class Cliente implements Serializable {
 	
 	@PrePersist @PreUpdate
 	private void prePersistPreUpdate() {
-		this.cpfOuCnpj = this.cpfOuCnpj.replaceAll("\\.|-|/", "");
+		this.cpfOuCnpj = TipoPessoa.removerFormatacao(this.cpfOuCnpj);
+	}
+	
+	public String getCpfOuCnpjSemFormatacao() {
+		return TipoPessoa.removerFormatacao(this.cpfOuCnpj);
 	}
 
 	public Long getCodigo() {

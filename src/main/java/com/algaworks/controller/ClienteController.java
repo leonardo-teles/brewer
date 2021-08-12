@@ -15,6 +15,7 @@ import com.algaworks.enums.TipoPessoa;
 import com.algaworks.model.Cliente;
 import com.algaworks.repository.Estados;
 import com.algaworks.service.ClienteService;
+import com.algaworks.service.exception.CpfCnpjClienteJaCadastradoException;
 
 @Controller
 @RequestMapping("/clientes")
@@ -41,7 +42,13 @@ public class ClienteController {
 			return novo(cliente);
 		}
 		
-		clienteService.salvar(cliente);
+		try {
+			clienteService.salvar(cliente);
+		} catch (CpfCnpjClienteJaCadastradoException e) {
+			result.rejectValue("cpfOuCnpj", e.getMessage(), e.getMessage());
+			
+			return novo(cliente);
+		}
 		attributes.addFlashAttribute("mensagem", "Cliente salvo com sucesso!");
 		
 		return new ModelAndView("redirect:/clientes/novo");
