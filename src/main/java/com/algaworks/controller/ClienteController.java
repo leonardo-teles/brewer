@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.algaworks.enums.TipoPessoa;
 import com.algaworks.model.Cliente;
 import com.algaworks.repository.Estados;
+import com.algaworks.service.ClienteService;
 
 @Controller
 @RequestMapping("/clientes")
@@ -21,6 +22,9 @@ public class ClienteController {
 	
 	@Autowired
 	private Estados estados;
+	
+	@Autowired
+	private ClienteService clienteService;
 
 	@GetMapping("/novo")
 	public ModelAndView novo(Cliente cliente) {
@@ -37,6 +41,7 @@ public class ClienteController {
 			return novo(cliente);
 		}
 		
+		clienteService.salvar(cliente);
 		attributes.addFlashAttribute("mensagem", "Cliente salvo com sucesso!");
 		
 		return new ModelAndView("redirect:/clientes/novo");
