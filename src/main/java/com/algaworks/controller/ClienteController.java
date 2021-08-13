@@ -1,8 +1,11 @@
 package com.algaworks.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.algaworks.controller.page.PageWrapper;
 import com.algaworks.enums.TipoPessoa;
 import com.algaworks.model.Cliente;
+import com.algaworks.repository.Clientes;
 import com.algaworks.repository.Estados;
+import com.algaworks.repository.filter.ClienteFilter;
 import com.algaworks.service.ClienteService;
 import com.algaworks.service.exception.CpfCnpjClienteJaCadastradoException;
 
@@ -26,6 +32,9 @@ public class ClienteController {
 	
 	@Autowired
 	private ClienteService clienteService;
+	
+	@Autowired
+	private Clientes clientes;
 
 	@GetMapping("/novo")
 	public ModelAndView novo(Cliente cliente) {
@@ -52,5 +61,15 @@ public class ClienteController {
 		attributes.addFlashAttribute("mensagem", "Cliente salvo com sucesso!");
 		
 		return new ModelAndView("redirect:/clientes/novo");
+	}
+	
+	@GetMapping
+	public ModelAndView pesquisar(ClienteFilter clienteFilter, BindingResult result, @PageableDefault(size = 2) Pageable pageable, HttpServletRequest httpServletRequest) {
+		ModelAndView mv = new ModelAndView("cliente/pesquisa");
+		
+		PageWrapper<Cliente> paginaWrapper = new PageWrapper<>(clientes.filtrar(clienteFilter, pageable), httpServletRequest);
+		mv.addObject("pagina", paginaWrapper);
+
+		return mv;
 	}
 }
