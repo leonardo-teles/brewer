@@ -8,9 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import com.algaworks.model.Cidade;
 import com.algaworks.model.Estado;
+import com.algaworks.repository.helper.cidade.CidadesQueries;
 
 @Repository
-public interface Cidades extends JpaRepository<Cidade, Long> {
+public interface Cidades extends JpaRepository<Cidade, Long>, CidadesQueries {
 
 	public List<Cidade> findByEstadoCodigo(Long codigoEstado);
 	

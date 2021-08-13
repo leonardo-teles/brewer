@@ -2,9 +2,12 @@ package com.algaworks.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.algaworks.controller.page.PageWrapper;
 import com.algaworks.model.Cidade;
 import com.algaworks.repository.Cidades;
 import com.algaworks.repository.Estados;
+import com.algaworks.repository.filter.CidadeFilter;
 import com.algaworks.service.CidadeService;
 import com.algaworks.service.exception.NomeCidadeJaCadastradoException;
 
@@ -72,5 +77,15 @@ public class CidadeController {
 		} catch (InterruptedException e) {}
 		
 		return cidades.findByEstadoCodigo(codigoEstado);
+	}
+	
+	@GetMapping
+	public ModelAndView pesquisar(CidadeFilter cidadeFilter, BindingResult result, @PageableDefault(size = 10) Pageable pageable, HttpServletRequest httpServletRequest) {
+		ModelAndView mv = new ModelAndView("cidade/pesquisa");
+		mv.addObject("estados", estados.findAll());
+		
+		PageWrapper<Cidade> paginaWrapper = new PageWrapper<>(cidades.filtrar(cidadeFilter, pageable), httpServletRequest);
+		mv.addObject("pagina", paginaWrapper);
+		return mv;
 	}
 }
