@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -70,10 +71,11 @@ public class CidadeController {
 		return new ModelAndView("redirect:/cidades/nova");
 	}
 	
+	@Cacheable("cidades")
 	@GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<Cidade> pesquisarPorCodigoEstado(@RequestParam(name = "estado", defaultValue = "-1") Long codigoEstado) {
 		try {
-			Thread.sleep(500);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {}
 		
 		return cidades.findByEstadoCodigo(codigoEstado);
