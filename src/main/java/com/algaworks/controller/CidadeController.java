@@ -77,7 +77,7 @@ public class CidadeController {
 	@GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<Cidade> pesquisarPorCodigoEstado(@RequestParam(name = "estado", defaultValue = "-1") Long codigoEstado) {
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {}
 		
 		return cidades.findByEstadoCodigo(codigoEstado);
