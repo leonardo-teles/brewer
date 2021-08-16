@@ -2,11 +2,10 @@
 <html lang="pt"
 	  xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/padrao}"
-	  xmlns:brewer="http://brewer.algaworks.com">
+	  xmlns:brewer="http://brewer.algaworks.com"
+	  layout:decorate="~{layout/padrao}">
 	  
 	<head>
-		
 		<link rel="stylesheet" th:href="@{/stylesheets/vendors/upload.min.css}"/>
 	
 		<title>Cadastro de Cerveja</title>
@@ -34,7 +33,7 @@
 			</div>
 	
 			<div class="container-fluid">
-				<form method="post" th:object="${cerveja}" class="form-vertical  js-form-loading">
+				<form method="post" th:object="${cerveja}">
 				
 					<brewer:message/>
 
