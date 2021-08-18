@@ -16,7 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import com.algaworks.validation.AtributoConfirmacao;
 
@@ -48,7 +47,7 @@ public class Usuario implements Serializable {
 	private LocalDate dataNascimento;
 	
 	@ManyToMany
-	@NotNull(message = "Selecione pelo menos um grupo")
+	//@NotNull(message = "Selecione pelo menos um grupo")
 	@JoinTable(name = "usuarios_grupos", 
 			   joinColumns = @JoinColumn(name = "codigo_usuario"),
 			   inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))

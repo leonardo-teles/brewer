@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.algaworks.model.Usuario;
 import com.algaworks.service.UsuarioService;
+import com.algaworks.service.exception.EmailUsuarioJaCadastradoException;
 
 @Controller
 @RequestMapping("/usuarios")
@@ -34,9 +35,15 @@ public class UsuarioController {
 			return novo(usuario);
 		}
 		
-		usuarioService.salvar(usuario);
-		attributes.addFlashAttribute("mensagem", "Cliente salvo com sucesso!");
+		try {
+			usuarioService.salvar(usuario);
+		} catch (EmailUsuarioJaCadastradoException e) {
+			result.rejectValue("email", e.getMessage(), e.getMessage());
+			
+			return novo(usuario);
+		}
+		attributes.addFlashAttribute("mensagem", "Usuário salvo com sucesso!");
 		
-		return new ModelAndView("redirect:/clientes/novo");
+		return new ModelAndView("redirect:/usuarios/novo");
 	}
 }
