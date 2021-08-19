@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.algaworks.model.Usuario;
+import com.algaworks.repository.Grupos;
 import com.algaworks.service.UsuarioService;
 import com.algaworks.service.exception.EmailUsuarioJaCadastradoException;
 
@@ -21,10 +22,14 @@ public class UsuarioController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private Grupos grupos;
 
 	@GetMapping("/novo")
 	public ModelAndView novo(Usuario usuario) {
 		ModelAndView mv = new ModelAndView("usuario/cadastro");
+		mv.addObject("grupos", grupos.findAll());
 		
 		return mv;
 	}
