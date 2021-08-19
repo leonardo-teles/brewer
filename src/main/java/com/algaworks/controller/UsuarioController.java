@@ -15,6 +15,7 @@ import com.algaworks.model.Usuario;
 import com.algaworks.repository.Grupos;
 import com.algaworks.service.UsuarioService;
 import com.algaworks.service.exception.EmailUsuarioJaCadastradoException;
+import com.algaworks.service.exception.SenhaObrigatoriaUsuarioException;
 
 @Controller
 @RequestMapping("/usuarios")
@@ -44,6 +45,10 @@ public class UsuarioController {
 			usuarioService.salvar(usuario);
 		} catch (EmailUsuarioJaCadastradoException e) {
 			result.rejectValue("email", e.getMessage(), e.getMessage());
+			
+			return novo(usuario);
+		} catch (SenhaObrigatoriaUsuarioException e) {
+			result.rejectValue("senha", e.getMessage(), e.getMessage());
 			
 			return novo(usuario);
 		}
