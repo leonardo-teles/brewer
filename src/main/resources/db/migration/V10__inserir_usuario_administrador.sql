@@ -1,0 +1,1 @@
+INSERT INTO usuarios(nome, email, senha, ativo) VALUES ('admin', 'admin@brewer.com', '{bcrypt}$2a$10$mPJ/ww1uNdujLhlJTHdTQeS6atSgkqirC.ij3PfAZHf6mVw9cedhO', 1)

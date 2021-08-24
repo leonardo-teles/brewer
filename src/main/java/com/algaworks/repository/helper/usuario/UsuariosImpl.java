@@ -18,5 +18,4 @@ public class UsuariosImpl implements UsuariosQueries {
 				.createQuery("from Usuario where lower(email) = lower(:email) and ativo = true", Usuario.class)
 				.setParameter("email", email).getResultList().stream().findFirst();
 	}
-
 }

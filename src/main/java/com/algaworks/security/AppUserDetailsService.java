@@ -26,5 +26,4 @@ public class AppUserDetailsService implements UserDetailsService {
 		
 		return new User(usuario.getEmail(), usuario.getSenha(), new HashSet<>());
 	}
-
 }
