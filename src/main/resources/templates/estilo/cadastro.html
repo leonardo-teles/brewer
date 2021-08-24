@@ -34,7 +34,7 @@
 			
 				<th:block th:include="fragments/sucesso"></th:block>
 			
-				<form method="post" th:object="${estilo}" class="form-vertical  js-form-loading">
+				<form method="post" th:object="${estilo}"  th:action="@{/estilos/novo}">
 				
 				<th:block th:include="fragments/erroValidacao"></th:block>
 					
