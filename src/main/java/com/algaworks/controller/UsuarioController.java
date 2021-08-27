@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.algaworks.model.Usuario;
 import com.algaworks.repository.Grupos;
+import com.algaworks.repository.Usuarios;
+import com.algaworks.repository.filter.UsuarioFilter;
 import com.algaworks.service.UsuarioService;
 import com.algaworks.service.exception.EmailUsuarioJaCadastradoException;
 import com.algaworks.service.exception.SenhaObrigatoriaUsuarioException;
@@ -23,6 +25,9 @@ public class UsuarioController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private Usuarios usuarios;
 	
 	@Autowired
 	private Grupos grupos;
@@ -55,5 +60,14 @@ public class UsuarioController {
 		attributes.addFlashAttribute("mensagem", "Usuário salvo com sucesso!");
 		
 		return new ModelAndView("redirect:/usuarios/novo");
+	}
+	
+	@GetMapping
+	public ModelAndView pesquisar(UsuarioFilter usuarioFilter) {
+		ModelAndView mv = new ModelAndView("usuario/pesquisa");
+		mv.addObject("usuarios", usuarios.findAll());
+		mv.addObject("grupos", grupos.findAll());
+
+		return mv;
 	}
 }
