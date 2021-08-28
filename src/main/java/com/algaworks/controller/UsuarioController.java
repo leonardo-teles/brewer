@@ -1,8 +1,11 @@
 package com.algaworks.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.algaworks.controller.page.PageWrapper;
 import com.algaworks.enums.StatusUsuario;
 import com.algaworks.model.Usuario;
 import com.algaworks.repository.Grupos;
@@ -68,11 +72,13 @@ public class UsuarioController {
 	}
 	
 	@GetMapping
-	public ModelAndView pesquisar(UsuarioFilter usuarioFilter) {
+	public ModelAndView pesquisar(UsuarioFilter usuarioFilter, @PageableDefault(size = 5) Pageable pageable, HttpServletRequest httpServletRequest) {
 		ModelAndView mv = new ModelAndView("usuario/pesquisa");
-		mv.addObject("usuarios", usuarios.filtrar(usuarioFilter));
 		mv.addObject("grupos", grupos.findAll());
-
+		
+		PageWrapper<Usuario> paginaWrapper = new PageWrapper<>(usuarios.filtrar(usuarioFilter, pageable), httpServletRequest);
+		mv.addObject("pagina", paginaWrapper);
+		
 		return mv;
 	}
 	
@@ -81,51 +87,4 @@ public class UsuarioController {
 	public void atualizarStatus(@RequestParam("codigos[]")Long[] codigos, @RequestParam("status") StatusUsuario statusUsuario) {
 		usuarioService.alterarStatus(codigos, statusUsuario);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

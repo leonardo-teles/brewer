@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
@@ -15,6 +16,10 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Subqueries;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
@@ -22,11 +27,15 @@ import com.algaworks.model.Grupo;
 import com.algaworks.model.Usuario;
 import com.algaworks.model.UsuarioGrupo;
 import com.algaworks.repository.filter.UsuarioFilter;
+import com.algaworks.repository.paginacao.PaginacaoUtil;
 
 public class UsuariosImpl implements UsuariosQueries {
 
 	@PersistenceContext
 	private EntityManager manager;
+	
+	@Autowired
+	private PaginacaoUtil paginacaoUtil;
 	
 	@Override
 	public Optional<Usuario> porEmailEAtivo(String email) {
@@ -46,12 +55,25 @@ public class UsuariosImpl implements UsuariosQueries {
 	@Override
 	@Transactional(readOnly = true)
 	@SuppressWarnings({ "deprecation", "unchecked" })
-	public List<Usuario> filtrar(UsuarioFilter filtro) {
+	public Page<Usuario> filtrar(UsuarioFilter filtro, Pageable pageable) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Usuario.class);
 		
+		paginacaoUtil.preparar(criteria, pageable);
 		adicionarFiltro(filtro, criteria);
 		
-		return criteria.list();
+		List<Usuario> filtrados = criteria.list();
+		filtrados.forEach(u -> Hibernate.initialize(u.getGrupos()));
+		
+		return new PageImpl<>(filtrados, pageable, total(filtro));
+	}
+	
+	@SuppressWarnings("deprecation")
+	private Long total(UsuarioFilter filtro) {
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Usuario.class);
+		adicionarFiltro(filtro, criteria);
+		criteria.setProjection(Projections.rowCount());
+		
+		return (Long) criteria.uniqueResult();
 	}
 
 	private void adicionarFiltro(UsuarioFilter filtro, Criteria criteria) {
