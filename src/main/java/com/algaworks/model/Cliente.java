@@ -26,6 +26,7 @@ import com.algaworks.enums.TipoPessoa;
 import com.algaworks.model.validation.ClienteGroupSequenceProvider;
 import com.algaworks.model.validation.group.CnpjGroup;
 import com.algaworks.model.validation.group.CpfGroup;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "clientes")
@@ -57,6 +58,7 @@ public class Cliente implements Serializable {
 	private String email;
 	
 	@Embedded
+	@JsonIgnore
 	private Endereco endereco;
 	
 	@PrePersist @PreUpdate
