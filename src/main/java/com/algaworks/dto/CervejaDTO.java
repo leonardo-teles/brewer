@@ -2,6 +2,8 @@ package com.algaworks.dto;
 
 import java.math.BigDecimal;
 
+import org.springframework.util.ObjectUtils;
+
 import com.algaworks.enums.Origem;
 
 public class CervejaDTO {
@@ -26,7 +28,7 @@ public class CervejaDTO {
 		this.nome = nome;
 		this.origem = origem.getDescricao();
 		this.valor = valor;
-		this.foto = foto;
+		this.foto = ObjectUtils.isEmpty(foto) ? "cerveja-mock.png" : foto;
 	}
 
 	public Long getCodigo() {
