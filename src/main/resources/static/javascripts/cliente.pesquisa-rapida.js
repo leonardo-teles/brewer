@@ -76,54 +76,6 @@ Brewer.TabelaClientePesquisaRapida = (function() {
 	return TabelaClientePesquisaRapida;
 }());
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 $(function() {
 	var pesquisaRapidaCliente = new Brewer.PesquisaRapidaCliente();
 	pesquisaRapidaCliente.iniciar();
