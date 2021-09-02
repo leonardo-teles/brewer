@@ -1,11 +1,10 @@
 package com.algaworks.venda;
 
-import static org.junit.Assert.*;
-
 import java.math.BigDecimal;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.algaworks.model.Cerveja;
 
@@ -13,14 +12,14 @@ public class TabelaItemVendaTest {
 
 	private TabelaItemVenda tabelaItemVenda;
 	
-	@Before
+	@BeforeEach
 	public void setUp() {
 		this.tabelaItemVenda = new TabelaItemVenda();
 	}
 	
 	@Test
 	public void deveCalcularValorTotalSemItens() throws Exception {
-		assertEquals(BigDecimal.ZERO, tabelaItemVenda.getValorTotal());
+		Assertions.assertEquals(BigDecimal.ZERO, tabelaItemVenda.getValorTotal());
 	}
 	
 	@Test
@@ -31,7 +30,7 @@ public class TabelaItemVendaTest {
 		
 		tabelaItemVenda.adicionarItem(cerveja, 1);
 		
-		assertEquals(valor, tabelaItemVenda.getValorTotal());
+		Assertions.assertEquals(valor, tabelaItemVenda.getValorTotal());
 	}
 	
 	@Test
@@ -51,6 +50,6 @@ public class TabelaItemVendaTest {
 		tabelaItemVenda.adicionarItem(c1, 1);
 		tabelaItemVenda.adicionarItem(c2, 2);
 		
-		assertEquals(new BigDecimal("18.88"), tabelaItemVenda.getValorTotal());
+		Assertions.assertEquals(new BigDecimal("18.88"), tabelaItemVenda.getValorTotal());
 	}
 }
