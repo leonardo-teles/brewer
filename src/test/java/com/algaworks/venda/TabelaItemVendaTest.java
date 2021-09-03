@@ -7,13 +7,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.algaworks.model.Cerveja;
+import com.algaworks.session.TabelaItemVenda;
 
 public class TabelaItemVendaTest {
 
 	private TabelaItemVenda tabelaItemVenda;
 	
 	@BeforeEach
-	public void setUp() {
+	public void setUp() throws Exception {
 		this.tabelaItemVenda = new TabelaItemVenda();
 	}
 	
