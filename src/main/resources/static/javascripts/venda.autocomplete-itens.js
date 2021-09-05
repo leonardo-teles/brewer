@@ -47,8 +47,3 @@ Brewer.Autocomplete = (function() {
 	return Autocomplete
 	
 }());
-
-$(function() {
-	var autocomplete = new Brewer.Autocomplete();
-	autocomplete.iniciar();
-})

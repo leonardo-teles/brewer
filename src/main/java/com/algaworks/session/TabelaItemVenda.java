@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 import com.algaworks.model.Cerveja;
 import com.algaworks.model.ItemVenda;
 
 @Component
+@SessionScope
 public class TabelaItemVenda {
 
 	private List<ItemVenda> itens = new ArrayList<>();

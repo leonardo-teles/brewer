@@ -1,11 +1,11 @@
-Brewer.TabelaItens = (function() {
+Brewer.TabelaItem = (function() {
 	
-	function TabelaItens(autocomplete) {
+	function TabelaItem(autocomplete) {
 		this.autocomplete = autocomplete;
 		this.tabelaCervejasContainer = $('.js-tabela-cervejas-container');
 	}
 	
-	TabelaItens.prototype.iniciar = function() {
+	TabelaItem.prototype.iniciar = function() {
 		this.autocomplete.on('item-selecionado', onItemSelecionado.bind(this));	
 	}
 	
@@ -47,7 +47,7 @@ Brewer.TabelaItens = (function() {
 		$(this).toggleClass('solicitando-exclusao');
 	}
 	
-	return TabelaItens;
+	return TabelaItem;
 	
 }());
 
@@ -56,7 +56,7 @@ $(function() {
 	var autocomplete = new Brewer.Autocomplete();
 	autocomplete.iniciar();
 	
-	var tabelaItens = new Brewer.TabelaItens(autocomplete);
-	tabelaItens.iniciar();
+	var tabelaItem = new Brewer.TabelaItem(autocomplete);
+	tabelaItem.iniciar();
 	
 });
