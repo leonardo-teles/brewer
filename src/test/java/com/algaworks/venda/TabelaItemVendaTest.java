@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +21,7 @@ public class TabelaItemVendaTest {
 	
 	@Test
 	public void deveCalcularValorTotalSemItens() throws Exception {
-		Assertions.assertEquals(BigDecimal.ZERO, tabelaItemVenda.getValorTotal());
+		assertEquals(BigDecimal.ZERO, tabelaItemVenda.getValorTotal());
 	}
 	
 	@Test
@@ -33,7 +32,7 @@ public class TabelaItemVendaTest {
 		
 		tabelaItemVenda.adicionarItem(cerveja, 1);
 		
-		Assertions.assertEquals(valor, tabelaItemVenda.getValorTotal());
+		assertEquals(valor, tabelaItemVenda.getValorTotal());
 	}
 	
 	@Test
@@ -53,7 +52,7 @@ public class TabelaItemVendaTest {
 		tabelaItemVenda.adicionarItem(c1, 1);
 		tabelaItemVenda.adicionarItem(c2, 2);
 		
-		Assertions.assertEquals(new BigDecimal("18.88"), tabelaItemVenda.getValorTotal());
+		assertEquals(new BigDecimal("18.88"), tabelaItemVenda.getValorTotal());
 	}
 	
 	@Test
@@ -80,5 +79,29 @@ public class TabelaItemVendaTest {
 		
 		assertEquals(1, tabelaItemVenda.total());
 		assertEquals(new BigDecimal("13.50"), tabelaItemVenda.getValorTotal());
+	}
+	
+	@Test
+	public void deveExcluirItem() throws Exception {
+		Cerveja c1 = new Cerveja();
+		c1.setCodigo(1L);
+		c1.setValor(new BigDecimal("8.90"));
+		
+		Cerveja c2 = new Cerveja();
+		c2.setCodigo(2L);
+		c2.setValor(new BigDecimal("4.99"));
+
+		Cerveja c3 = new Cerveja();
+		c3.setCodigo(3L);
+		c3.setValor(new BigDecimal("2.00"));
+
+		tabelaItemVenda.adicionarItem(c1, 1);
+		tabelaItemVenda.adicionarItem(c2, 2);
+		tabelaItemVenda.adicionarItem(c3, 1);
+		
+		tabelaItemVenda.excluirItem(c2);
+		
+		assertEquals(2, tabelaItemVenda.total());
+		assertEquals(new BigDecimal("10.90"), tabelaItemVenda.getValorTotal());
 	}
 }

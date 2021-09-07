@@ -2,6 +2,7 @@ package com.algaworks.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,6 @@ public class VendasController {
 	
 	@Autowired
 	private TabelaItemVenda tabelaItemVenda;
-	
 
 	@GetMapping("/nova")
 	public String nova() {
@@ -34,17 +34,24 @@ public class VendasController {
 		Cerveja cerveja = cervejas.getOne(codigoCerveja);
 		tabelaItemVenda.adicionarItem(cerveja, 1);
 		
-		ModelAndView mv = new ModelAndView("venda/tabela");
-		mv.addObject("itens", tabelaItemVenda.getItens());
-		
-		return mv;
+		return mvTabelaItemVenda();
 	}
 	
 	@PutMapping("/item/{codigoCerveja}")
-	public ModelAndView alterarQuantidadeItem(@PathVariable Long codigoCerveja, Integer quantidade) {
-		Cerveja cerveja = cervejas.findById(codigoCerveja).get();
+	public ModelAndView alterarQuantidadeItem(@PathVariable("codigoCerveja") Cerveja cerveja, Integer quantidade) {
 		tabelaItemVenda.alterarQuantidadeItens(cerveja, quantidade);
 
+		return mvTabelaItemVenda();
+	}
+	
+	@DeleteMapping("/item/{codigoCerveja}") 
+	public ModelAndView excluirItem(@PathVariable("codigoCerveja") Cerveja cerveja) {
+		tabelaItemVenda.excluirItem(cerveja);
+		
+		return mvTabelaItemVenda();
+	}
+
+	private ModelAndView mvTabelaItemVenda() {
 		ModelAndView mv = new ModelAndView("venda/tabela");
 		mv.addObject("itens", tabelaItemVenda.getItens());
 		
