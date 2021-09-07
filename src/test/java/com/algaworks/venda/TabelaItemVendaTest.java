@@ -1,5 +1,7 @@
 package com.algaworks.venda;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Assertions;
@@ -52,5 +54,18 @@ public class TabelaItemVendaTest {
 		tabelaItemVenda.adicionarItem(c2, 2);
 		
 		Assertions.assertEquals(new BigDecimal("18.88"), tabelaItemVenda.getValorTotal());
+	}
+	
+	@Test
+	public void deveManterTamanhoDaListaParaMesmasCervejas() throws Exception {
+		Cerveja c1 = new Cerveja();
+		c1.setCodigo(1L);
+		c1.setValor(new BigDecimal("4.50"));
+		
+		tabelaItemVenda.adicionarItem(c1, 1);
+		tabelaItemVenda.adicionarItem(c1, 1);
+		
+		assertEquals(1, tabelaItemVenda.total());
+		assertEquals(new BigDecimal("9.00"), tabelaItemVenda.getValorTotal());
 	}
 }
