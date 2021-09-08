@@ -36,7 +36,7 @@ public class VendasController {
 	
 	@PostMapping("/item")
 	public ModelAndView adicionarItem(Long codigoCerveja, String uuid) {
-		Cerveja cerveja = cervejas.getOne(codigoCerveja);
+		Cerveja cerveja = cervejas.findById(codigoCerveja).orElse(null);
 		tabelaItem.adicionarItem(uuid, cerveja, 1);
 		
 		return mvTabelaItemVenda(uuid);
@@ -51,7 +51,7 @@ public class VendasController {
 	
 	@DeleteMapping("/item/{uuid}/{codigoCerveja}") 
 	public ModelAndView excluirItem(@PathVariable("codigoCerveja") Cerveja cerveja, @PathVariable String uuid) {
-		tabelaItem.excluirItem(cerveja);
+		tabelaItem.excluirItem(uuid, cerveja);
 		
 		return mvTabelaItemVenda(uuid);
 	}

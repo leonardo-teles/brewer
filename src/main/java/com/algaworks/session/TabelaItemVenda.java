@@ -27,6 +27,7 @@ class TabelaItemVenda {
 		Optional<ItemVenda> itemVendaOptional = buscarItemPorCerveja(cerveja);
 		
 		ItemVenda itemVenda = null;
+		
 		if (itemVendaOptional.isPresent()) {
 			itemVenda = itemVendaOptional.get();
 			itemVenda.setQuantidade(itemVenda.getQuantidade() + quantidade);
@@ -57,6 +58,10 @@ class TabelaItemVenda {
 	
 	public List<ItemVenda> getItens() {
 		return itens;
+	}
+	
+	public String getUuid() {
+		return uuid;
 	}
 	
 	private Optional<ItemVenda> buscarItemPorCerveja(Cerveja cerveja) {
