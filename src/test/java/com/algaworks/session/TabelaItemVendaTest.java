@@ -1,4 +1,4 @@
-package com.algaworks.venda;
+package com.algaworks.session;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.algaworks.model.Cerveja;
-import com.algaworks.session.TabelaItemVenda;
 
 public class TabelaItemVendaTest {
 
@@ -16,7 +15,7 @@ public class TabelaItemVendaTest {
 	
 	@BeforeEach
 	public void setUp() throws Exception {
-		this.tabelaItemVenda = new TabelaItemVenda();
+		this.tabelaItemVenda = new TabelaItemVenda("1");
 	}
 	
 	@Test
