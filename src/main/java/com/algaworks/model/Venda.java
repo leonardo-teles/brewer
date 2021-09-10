@@ -1,9 +1,12 @@
 package com.algaworks.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.algaworks.enums.StatusVenda;
 
@@ -40,8 +44,8 @@ public class Venda {
 	
 	private String observacao;
 	
-	@Column(name = "data_entrega")
-	private LocalDateTime dataEntrega;
+	@Column(name = "data_hora_entrega")
+	private LocalDateTime dataHoraEntrega;
 	
 	@ManyToOne
 	@JoinColumn(name = "codigo_cliente")
@@ -52,10 +56,19 @@ public class Venda {
 	private Usuario usuario;
 	
 	@Enumerated(EnumType.STRING)
-	private StatusVenda status;
+	private StatusVenda status = StatusVenda.ORCAMENTO;
 
-	@OneToMany(mappedBy = "venda")
+	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
 	private List<ItemVenda> itens;
+	
+	@Transient
+	private String uuid;
+	
+	@Transient
+	private LocalDate dataEntrega;
+	
+	@Transient
+	private LocalTime horaEntrega;
 
 	public Long getCodigo() {
 		return codigo;
@@ -105,12 +118,12 @@ public class Venda {
 		this.observacao = observacao;
 	}
 
-	public LocalDateTime getDataEntrega() {
-		return dataEntrega;
+	public LocalDateTime getDataHoraEntrega() {
+		return dataHoraEntrega;
 	}
 
-	public void setDataEntrega(LocalDateTime dataEntrega) {
-		this.dataEntrega = dataEntrega;
+	public void setDataHoraEntrega(LocalDateTime dataHoraEntrega) {
+		this.dataHoraEntrega = dataHoraEntrega;
 	}
 
 	public Cliente getCliente() {
@@ -144,6 +157,39 @@ public class Venda {
 	public void setItens(List<ItemVenda> itens) {
 		this.itens = itens;
 	}
+	
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+	
+	public LocalDate getDataEntrega() {
+		return dataEntrega;
+	}
+
+	public void setDataEntrega(LocalDate dataEntrega) {
+		this.dataEntrega = dataEntrega;
+	}
+
+	public LocalTime getHoraEntrega() {
+		return horaEntrega;
+	}
+
+	public void setHoraEntrega(LocalTime horaEntrega) {
+		this.horaEntrega = horaEntrega;
+	}
+	
+	public boolean isNova() {
+		return codigo == null;
+	}
+	
+	public void adicionarItens(List<ItemVenda> itens) {
+		this.itens = itens;
+		this.itens.forEach(i -> i.setVenda(this));
+	}
 
 	@Override
 	public int hashCode() {
@@ -169,6 +215,5 @@ public class Venda {
 			return false;
 		return true;
 	}
-
 }
 

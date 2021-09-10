@@ -3,6 +3,7 @@ package com.algaworks.controller;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.algaworks.model.Cerveja;
+import com.algaworks.model.Venda;
 import com.algaworks.repository.Cervejas;
+import com.algaworks.security.UsuarioSistema;
+import com.algaworks.service.VendaService;
 import com.algaworks.session.TabelaItemSession;
 
 @Controller
@@ -24,14 +29,28 @@ public class VendasController {
 	private Cervejas cervejas;
 	
 	@Autowired
+	private VendaService vendaService;
+	
+	@Autowired
 	private TabelaItemSession tabelaItem;
 
 	@GetMapping("/nova")
-	public ModelAndView nova() {
+	public ModelAndView nova(Venda venda) {
 		ModelAndView mv = new ModelAndView("venda/cadastro");
-		mv.addObject("uuid", UUID.randomUUID().toString());
+		venda.setUuid(UUID.randomUUID().toString());
 		
 		return mv;
+	}
+	
+	@PostMapping("/nova")
+	public ModelAndView salvar(Venda venda, RedirectAttributes attributes, @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
+		venda.setUsuario(usuarioSistema.getUsuario());
+		venda.adicionarItens(tabelaItem.getItens(venda.getUuid()));
+		
+		vendaService.salvar(venda);
+		attributes.addFlashAttribute("mensagem", "Venda salva com sucesso");
+		
+		return new ModelAndView("redirect:/vendas/nova");
 	}
 	
 	@PostMapping("/item")
