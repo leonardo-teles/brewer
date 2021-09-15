@@ -2,7 +2,11 @@ package com.algaworks.controller;
 
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
@@ -18,10 +22,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.algaworks.controller.page.PageWrapper;
 import com.algaworks.controller.validator.VendaValidator;
+import com.algaworks.enums.StatusVenda;
+import com.algaworks.enums.TipoPessoa;
 import com.algaworks.model.Cerveja;
 import com.algaworks.model.Venda;
 import com.algaworks.repository.Cervejas;
+import com.algaworks.repository.Vendas;
+import com.algaworks.repository.filter.VendaFilter;
 import com.algaworks.security.UsuarioSistema;
 import com.algaworks.service.VendaService;
 import com.algaworks.session.TabelaItemSession;
@@ -42,7 +51,10 @@ public class VendasController {
 	@Autowired
 	private VendaValidator vendaValidator;
 	
-	@InitBinder
+	@Autowired
+	private Vendas vendas;
+	
+	@InitBinder("venda")
 	public void inicializarValidador(WebDataBinder binder) {
 		binder.setValidator(vendaValidator);
 	}
@@ -131,6 +143,18 @@ public class VendasController {
 		tabelaItem.excluirItem(uuid, cerveja);
 		
 		return mvTabelaItemVenda(uuid);
+	}
+	
+	@GetMapping
+	public ModelAndView pesquisar(VendaFilter vendaFilter, @PageableDefault(size = 3) Pageable pageable, HttpServletRequest httpServletRequest) {
+		ModelAndView mv = new ModelAndView("venda/pesquisa");
+		mv.addObject("todosStatus", StatusVenda.values());
+		mv.addObject("tiposPessoa", TipoPessoa.values());
+		
+		PageWrapper<Venda> paginaWrapper = new PageWrapper<>(vendas.filtrar(vendaFilter, pageable), httpServletRequest);
+		mv.addObject("pagina", paginaWrapper);
+		
+		return mv;
 	}
 
 	private ModelAndView mvTabelaItemVenda(String uuid) {

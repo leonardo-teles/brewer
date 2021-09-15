@@ -8,21 +8,28 @@
 	  layout:decorate="~{layout/padrao}">
 	  
 	<head>
-		<title>Cadastro de venda</title>
+		<title>Cadastro de Venda</title>
 		
 		<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.min.css}"/>
 		<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.themes.min.css}"/>
 	</head>
 
 	<section layout:fragment="conteudo">
-	
 		<div class="page-header">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-xs-10">
-						<h1>Cadastro de venda</h1>
+					<div class="col-sm-10">
+						<h1>Cadastro de Venda</h1>						
 					</div>
-				</div>
+					
+					<div class="col-sm-2">
+						<div class="aw-page-header-controls">
+							<a class="btn btn-default" th:href="@{/vendas}">
+								<i class="glyphicon glyphicon-search"></i> <span class="hidden-xs hidden-sm">Pesquisar Venda</span>
+							</a>
+						</div>
+					</div>
+				</div>					
 			</div>
 		</div>
 		
