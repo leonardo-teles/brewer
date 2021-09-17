@@ -7,12 +7,14 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.jcache.JCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
+@EnableAsync
 @Configuration
 @EnableCaching
 public class WebConfig implements WebMvcConfigurer {

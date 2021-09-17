@@ -23,9 +23,6 @@ public class MailConfig {
 		mailSender.setUsername(env.getProperty("brewer.mail.username"));
 		mailSender.setPassword(env.getProperty("brewer.mail.password"));
 		
-		System.out.println("username>>> " + env.getProperty("brewer.mail.username"));
-		System.out.println("password>>> " + env.getProperty("brewer.mail.password"));
-		
 		Properties props = new Properties();
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.auth", true);

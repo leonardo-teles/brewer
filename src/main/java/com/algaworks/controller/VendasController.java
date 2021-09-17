@@ -26,6 +26,7 @@ import com.algaworks.controller.page.PageWrapper;
 import com.algaworks.controller.validator.VendaValidator;
 import com.algaworks.enums.StatusVenda;
 import com.algaworks.enums.TipoPessoa;
+import com.algaworks.mail.Mailer;
 import com.algaworks.model.Cerveja;
 import com.algaworks.model.Venda;
 import com.algaworks.repository.Cervejas;
@@ -53,6 +54,9 @@ public class VendasController {
 	
 	@Autowired
 	private Vendas vendas;
+	
+	@Autowired
+	private Mailer mailer;
 	
 	@InitBinder("venda")
 	public void inicializarValidador(WebDataBinder binder) {
@@ -109,15 +113,16 @@ public class VendasController {
 	
 	@PostMapping(value = "/nova", params = "enviar")
 	public ModelAndView enviar(Venda venda, BindingResult result, RedirectAttributes attributes, @AuthenticationPrincipal UsuarioSistema usuarioSistema) {
-		validarVenda(venda, result);
+	
+	    validarVenda(venda, result);
+	  
+	    if(result.hasErrors()) { return nova(venda); }
+	  
+	    venda.setUsuario(usuarioSistema.getUsuario());
+	  
+	    vendaService.salvar(venda);
+		mailer.enviar();
 		
-		if(result.hasErrors()) {
-			return nova(venda);
-		}
-		
-		venda.setUsuario(usuarioSistema.getUsuario());
-		
-		vendaService.salvar(venda);
 		attributes.addFlashAttribute("mensagem", "Venda salva e e-Mail enviado");
 		
 		return new ModelAndView("redirect:/vendas/nova");
