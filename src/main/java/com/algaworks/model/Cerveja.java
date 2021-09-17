@@ -198,7 +198,7 @@ public class Cerveja implements Serializable {
 		return !ObjectUtils.isEmpty(foto) ? foto : "cerveja-mock.png";
 	}
 	
-	public boolean temfoto() {
+	public boolean temFoto() {
 		return !ObjectUtils.isEmpty(this.foto);
 	}
 

@@ -1,5 +1,6 @@
 package com.algaworks.mail;
 
+import java.util.Locale;
 import java.util.Map;
 
 import javax.mail.MessagingException;
@@ -40,7 +41,7 @@ public class Mailer {
 	@Async
 	@SuppressWarnings("unchecked")
 	public void enviar(Venda venda) {
-		Context context = new Context();
+		Context context = new Context(new Locale("pt", "BR"));
 		context.setVariable("venda", venda);
 		context.setVariable("logo", "logo");
 		
@@ -50,7 +51,7 @@ public class Mailer {
 		for(ItemVenda item : venda.getItens()) {
 			Cerveja cerveja = item.getCerveja();
 			
-			if(cerveja.temfoto()) {
+			if(cerveja.temFoto()) {
 				String cid = "foto-" + cerveja.getCodigo();
 				context.setVariable(cid, cid);
 				
@@ -68,7 +69,7 @@ public class Mailer {
 			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 			helper.setFrom("teste@mail.com");
 			helper.setTo(venda.getCliente().getEmail());
-			helper.setSubject("Brewer - Venda Realizada");
+			helper.setSubject(String.format("Brewer - Venda nº %d", venda.getCodigo()));
 			helper.setText(email, true);
 			
 			helper.addInline("logo", new ClassPathResource("static/images/logo-gray.png"));
