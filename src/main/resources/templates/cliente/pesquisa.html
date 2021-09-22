@@ -32,7 +32,7 @@
 			</div>
 	
 			<div class="container-fluid">
-				<form method="GET" th:object="${clienteFilter}">
+				<form method="GET" th:object="${clienteFilter}" th:action="@{/clientes}">
 					<div class="row">
 						<div class="form-group  col-sm-8" >
 							<label class="control-label" for="nome">Nome</label>

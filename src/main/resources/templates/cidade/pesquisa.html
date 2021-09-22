@@ -35,7 +35,7 @@
 			
 			<div class="container-fluid">
 			
-				<form method="GET" th:object="${cidadeFilter}">
+				<form method="GET" th:object="${cidadeFilter}" th:action="@{/cidades}">
 					<div class="row">
 						<div class="form-group  col-sm-4">
 							<label class="control-label" for="cidade">Estados</label>
