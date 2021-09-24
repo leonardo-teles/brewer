@@ -46,11 +46,9 @@ Brewer.UploadFoto = (function() {
 		this.uploadDrop.addClass('hidden');
 		
 		var foto = '';
-		
 		if(this.novaFoto.val() == 'true') {
 			foto = 'temp/';
 		}
-		
 		foto += resposta.nome
 		
 		var htmlFotoCerveja = this.template({ foto: foto })
@@ -64,6 +62,7 @@ Brewer.UploadFoto = (function() {
 		this.uploadDrop.removeClass('hidden');
 		this.inputNomeFoto.val('');
 		this.inputContentType.val('');
+		this.novaFoto.val('false');
 	}
 	
 	function adicionarCsrfToken(xhr) {

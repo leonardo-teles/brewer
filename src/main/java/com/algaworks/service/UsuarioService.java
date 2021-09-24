@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import com.algaworks.enums.StatusUsuario;
@@ -25,9 +26,9 @@ public class UsuarioService {
 	
 	@Transactional
 	public void salvar(Usuario usuario) {
-		Optional<Usuario> emailExistente = usuarios.findByEmail(usuario.getEmail());
+		Optional<Usuario> usuarioExistente = usuarios.findByEmail(usuario.getEmail());
 		
-		if(emailExistente.isPresent()) {
+		if(usuarioExistente.isPresent() && !usuarioExistente.get().equals(usuario)) {
 			throw new EmailUsuarioJaCadastradoException("e-Mail já cadastrado");
 		}
 		
@@ -35,10 +36,17 @@ public class UsuarioService {
 			throw new SenhaObrigatoriaUsuarioException("Senha obrigatória para novos usuários");
 		}
 		
-		if(usuario.isNovo()) {
+		if(usuario.isNovo() || !ObjectUtils.isEmpty(usuario.getSenha())) {
 			usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-			usuario.setConfirmacaoSenha(usuario.getSenha());
+		} else if(ObjectUtils.isEmpty(usuario.getSenha())) {
+			usuario.setSenha(usuarioExistente.get().getSenha());
 		}
+		
+		if(!usuario.isNovo() && usuario.getAtivo() == null) {
+			usuario.setAtivo(usuarioExistente.get().getAtivo());
+		}
+		
+		usuario.setConfirmacaoSenha(usuario.getSenha());
 		
 		usuarios.save(usuario);
 	}
